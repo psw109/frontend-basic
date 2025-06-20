@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox 카드 레이아웃 예제</title>
+    <style>
+        /* CSS 변수 정의 */
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --background-color: #f1f5f9;
+            --card-background: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 기본 스타일 리셋 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        /* 컨테이너 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* 헤더 */
+        header {
+            background-color: var(--card-background);
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* 네비게이션 */
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin-right: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background-color: #2563eb;
+        }
+
+        /* 메인 콘텐츠 */
+        main {
+            padding: 2rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h1 {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+        }
+
+        /* 카드 그리드 */
+        .card-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* 카드 스타일 */
+        .card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex: 1 1 300px;
+            min-width: 300px;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .card-description {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background-color: var(--background-color);
+            color: var(--secondary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .card-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .card-button:hover {
+            background-color: #2563eb;
+        }
+
+        /* 통계 섹션 */
+        .stats-section {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        /* 푸터 */
+        footer {
+            background-color: var(--text-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                margin-right: 0;
+                margin-bottom: 1rem;
+                gap: 1rem;
+            }
+
+            .card-grid {
+                flex-direction: column;
+            }
+
+            .card {
+                flex: none;
+            }
+
+            .stats-grid {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .section-title h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .card-grid {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">FlexBox Demo</div>
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="#home">홈</a></li>
+                        <li><a href="#features">기능</a></li>
+                        <li><a href="#pricing">가격</a></li>
+                        <li><a href="#contact">연락처</a></li>
+                    </ul>
+                    <button class="nav-button">시작하기</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 콘텐츠 -->
+    <main>
+        <div class="container">
+            <!-- 섹션 제목 -->
+            <div class="section-title">
+                <h1>Flexbox 카드 레이아웃</h1>
+                <p>CSS Flexbox를 활용한 반응형 카드 레이아웃 예제입니다.</p>
+            </div>
+
+            <!-- 카드 그리드 -->
+            <div class="card-grid">
+                <!-- 카드 1 -->
+                <div class="card">
+                    <div class="card-image">🚀</div>
+                    <div class="card-content">
+                        <h3 class="card-title">빠른 성능</h3>
+                        <p class="card-description">최적화된 코드로 빠른 로딩 속도를 제공합니다. 사용자 경험을 향상시키는 핵심 요소입니다.</p>
+                        <div class="card-tags">
+                            <span class="tag">성능</span>
+                            <span class="tag">최적화</span>
+                        </div>
+                        <button class="card-button">자세히 보기</button>
+                    </div>
+                </div>
+
+                <!-- 카드 2 -->
+                <div class="card">
+                    <div class="card-image">🎨</div>
+                    <div class="card-content">
+                        <h3 class="card-title">아름다운 디자인</h3>
+                        <p class="card-description">모던하고 직관적인 디자인으로 사용자에게 최고의 시각적 경험을 제공합니다.</p>
+                        <div class="card-tags">
+                            <span class="tag">디자인</span>
+                            <span class="tag">UI/UX</span>
+                        </div>
+                        <button class="card-button">자세히 보기</button>
+                    </div>
+                </div>
+
+                <!-- 카드 3 -->
+                <div class="card">
+                    <div class="card-image">📱</div>
+                    <div class="card-content">
+                        <h3 class="card-title">반응형 디자인</h3>
+                        <p class="card-description">모든 디바이스에서 완벽하게 작동하는 반응형 웹 디자인을 구현했습니다.</p>
+                        <div class="card-tags">
+                            <span class="tag">반응형</span>
+                            <span class="tag">모바일</span>
+                        </div>
+                        <button class="card-button">자세히 보기</button>
+                    </div>
+                </div>
+
+                <!-- 카드 4 -->
+                <div class="card">
+                    <div class="card-image">🔒</div>
+                    <div class="card-content">
+                        <h3 class="card-title">보안 강화</h3>
+                        <p class="card-description">최신 보안 기술을 적용하여 사용자 데이터를 안전하게 보호합니다.</p>
+                        <div class="card-tags">
+                            <span class="tag">보안</span>
+                            <span class="tag">데이터</span>
+                        </div>
+                        <button class="card-button">자세히 보기</button>
+                    </div>
+                </div>
+
+                <!-- 카드 5 -->
+                <div class="card">
+                    <div class="card-image">⚡</div>
+                    <div class="card-content">
+                        <h3 class="card-title">실시간 업데이트</h3>
+                        <p class="card-description">실시간으로 데이터를 업데이트하여 항상 최신 정보를 제공합니다.</p>
+                        <div class="card-tags">
+                            <span class="tag">실시간</span>
+                            <span class="tag">업데이트</span>
+                        </div>
+                        <button class="card-button">자세히 보기</button>
+                    </div>
+                </div>
+
+                <!-- 카드 6 -->
+                <div class="card">
+                    <div class="card-image">🌐</div>
+                    <div class="card-content">
+                        <h3 class="card-title">글로벌 지원</h3>
+                        <p class="card-description">전 세계 어디서나 접근 가능한 글로벌 서비스를 제공합니다.</p>
+                        <div class="card-tags">
+                            <span class="tag">글로벌</span>
+                            <span class="tag">지원</span>
+                        </div>
+                        <button class="card-button">자세히 보기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 통계 섹션 -->
+            <div class="stats-section">
+                <h2 style="text-align: center; margin-bottom: 2rem;">서비스 통계</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">활성 사용자</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">가동률</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">고객 지원</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">국가 지원</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 FlexBox Demo. 모든 권리 보유.</p>
+            <p>CSS Flexbox를 활용한 반응형 웹 디자인</p>
+        </div>
+    </footer>
+</body>
+</html> 

@@ -1,0 +1,65 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# 🎯 프론트엔드 학습 커리큘럼 가이드
+
+## 📋 프로젝트 기술 스택
+- **빌드 도구**: Vite
+- **언어**: TypeScript
+- **프레임워크**: React 18
+- **스타일링**: Tailwind CSS + shadcn/ui (Radix UI 기반)
+- **상태관리**: Zustand
+- **데이터 페칭**: TanStack Query (React Query)
+- **라우팅**: React Router DOM
+- **폼 관리**: React Hook Form + Zod
+- **차트**: ApexCharts, Recharts
+- **HTTP 클라이언트**: Axios
+
+## 🚀 학습 단계별 폴더 구조
+
+### 1단계: 기초 다지기
+- [01-html-css-basics/](mdc:01-html-css-basics) - HTML & CSS 기초
+- [02-javascript-basics/](mdc:02-javascript-basics) - JavaScript 기초
+- [03-typescript-basics/](mdc:03-typescript-basics) - TypeScript 기초
+
+### 2단계: React 기초
+- [04-react-basics/](mdc:04-react-basics) - React 핵심 개념 및 Hooks
+
+### 3단계: 스타일링
+- [05-tailwind-shadcn/](mdc:05-tailwind-shadcn) - Tailwind CSS + shadcn/ui
+
+### 4단계: 상태관리 & 데이터 페칭
+- [06-state-management/](mdc:06-state-management) - Zustand + TanStack Query
+
+### 5단계: 라우팅 & 폼 관리
+- [07-routing-forms/](mdc:07-routing-forms) - React Router DOM + React Hook Form + Zod
+
+### 6단계: 고급 기능
+- [08-advanced-features/](mdc:08-advanced-features) - 차트, HTTP 클라이언트, 빌드 도구
+
+## 📚 학습 진행 가이드
+
+### 현재 진행 단계
+- 각 폴더에는 해당 단계의 학습 내용과 예제 파일들이 포함됩니다
+- 순차적으로 진행하며, 각 단계 완료 후 다음 단계로 이동합니다
+
+### 예제 파일 구조
+- `README.md` - 해당 단계의 학습 목표와 내용
+- `examples/` - 실습 예제 파일들
+- `practice/` - 연습 문제와 해답
+- `projects/` - 종합 프로젝트
+
+### 학습 체크리스트
+- [ ] HTML & CSS 기초 완료
+- [ ] JavaScript 기초 완료
+- [ ] TypeScript 기초 완료
+- [ ] React 기초 완료
+- [ ] Tailwind CSS + shadcn/ui 완료
+- [ ] Zustand + TanStack Query 완료
+- [ ] React Router DOM + React Hook Form 완료
+- [ ] 고급 기능 완료
+
+## 🎯 학습 목표
+각 단계별로 실무에서 사용할 수 있는 실전 예제를 통해 학습하며, 최종적으로는 프로젝트에 적용할 수 있는 수준의 역량을 기릅니다.

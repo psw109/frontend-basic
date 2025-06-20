@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반응형 모바일 퍼스트 디자인 예제</title>
+    <style>
+        /* CSS 변수 정의 */
+        :root {
+            --primary-color: #06b6d4;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --background-color: #f0f9ff;
+            --card-background: #ffffff;
+            --text-color: #0f172a;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 기본 스타일 리셋 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        /* 컨테이너 */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* 헤더 */
+        header {
+            background-color: var(--card-background);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* 모바일 메뉴 */
+        .mobile-menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .nav-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--card-background);
+            box-shadow: var(--shadow-lg);
+            padding: 1rem;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .nav-menu.active {
+            display: flex;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        /* 메인 콘텐츠 */
+        main {
+            padding: 2rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title h1 {
+            font-size: 1.75rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            font-size: 1rem;
+            color: var(--secondary-color);
+        }
+
+        /* 히어로 섹션 */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), #0891b2);
+            color: white;
+            padding: 3rem 1rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-button {
+            background-color: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* 기능 카드 그리드 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), #0891b2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .feature-description {
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+
+        /* 이미지 갤러리 */
+        .gallery {
+            margin-bottom: 2rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-color), #0891b2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .gallery-content {
+            padding: 1rem;
+        }
+
+        .gallery-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .gallery-description {
+            color: var(--secondary-color);
+            font-size: 0.875rem;
+        }
+
+        /* CTA 섹션 */
+        .cta-section {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .cta-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .cta-description {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #0891b2;
+        }
+
+        /* 푸터 */
+        footer {
+            background-color: var(--text-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* 태블릿 스타일 (768px 이상) */
+        @media (min-width: 768px) {
+            .mobile-menu-toggle {
+                display: none;
+            }
+
+            .nav-menu {
+                display: flex;
+                position: static;
+                background: none;
+                box-shadow: none;
+                padding: 0;
+                flex-direction: row;
+                gap: 2rem;
+            }
+
+            .nav-menu a {
+                border-bottom: none;
+                padding: 0;
+            }
+
+            .section-title h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero {
+                padding: 4rem 2rem;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.125rem;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        /* 데스크톱 스타일 (1024px 이상) */
+        @media (min-width: 1024px) {
+            .container {
+                padding: 0 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .hero {
+                padding: 5rem 3rem;
+            }
+
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* 큰 데스크톱 스타일 (1280px 이상) */
+        @media (min-width: 1280px) {
+            .gallery-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* 접근성 개선 */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* 다크 모드 지원 */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-color: #0f172a;
+                --card-background: #1e293b;
+                --text-color: #f1f5f9;
+                --border-color: #334155;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">MobileFirst</div>
+                <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
+                <nav>
+                    <ul class="nav-menu" id="navMenu">
+                        <li><a href="#home">홈</a></li>
+                        <li><a href="#features">기능</a></li>
+                        <li><a href="#gallery">갤러리</a></li>
+                        <li><a href="#about">소개</a></li>
+                        <li><a href="#contact">연락처</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 콘텐츠 -->
+    <main>
+        <div class="container">
+            <!-- 섹션 제목 -->
+            <div class="section-title">
+                <h1>모바일 퍼스트 반응형 디자인</h1>
+                <p>모든 디바이스에서 완벽하게 작동하는 반응형 웹사이트</p>
+            </div>
+
+            <!-- 히어로 섹션 -->
+            <section class="hero">
+                <h2>모바일부터 시작하는 디자인</h2>
+                <p>작은 화면부터 시작하여 큰 화면까지 모든 사용자에게 최적화된 경험을 제공합니다.</p>
+                <button class="hero-button">시작하기</button>
+            </section>
+
+            <!-- 기능 섹션 -->
+            <section class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">모바일 최적화</h3>
+                    <p class="feature-description">모바일 디바이스에서 완벽하게 작동하는 터치 친화적인 인터페이스를 제공합니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3 class="feature-title">반응형 레이아웃</h3>
+                    <p class="feature-description">화면 크기에 따라 자동으로 조정되는 유연한 레이아웃으로 모든 디바이스에 최적화됩니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">빠른 성능</h3>
+                    <p class="feature-description">최적화된 코드와 이미지로 빠른 로딩 속도와 부드러운 사용자 경험을 제공합니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">모던 디자인</h3>
+                    <p class="feature-description">최신 디자인 트렌드를 반영한 깔끔하고 직관적인 사용자 인터페이스입니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">보안 강화</h3>
+                    <p class="feature-description">최신 보안 기술을 적용하여 사용자 데이터를 안전하게 보호합니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">접근성</h3>
+                    <p class="feature-description">모든 사용자가 쉽게 이용할 수 있도록 웹 접근성 가이드라인을 준수합니다.</p>
+                </div>
+            </section>
+
+            <!-- 갤러리 섹션 -->
+            <section class="gallery">
+                <h2 style="text-align: center; margin-bottom: 1.5rem; font-size: 1.5rem;">프로젝트 갤러리</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <div class="gallery-image">🎨</div>
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">웹 디자인</h3>
+                            <p class="gallery-description">모던하고 직관적인 웹사이트 디자인</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="gallery-image">📱</div>
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">모바일 앱</h3>
+                            <p class="gallery-description">사용자 친화적인 모바일 애플리케이션</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="gallery-image">💼</div>
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">브랜딩</h3>
+                            <p class="gallery-description">일관된 브랜드 아이덴티티 구축</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="gallery-image">📊</div>
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">데이터 시각화</h3>
+                            <p class="gallery-description">복잡한 데이터를 직관적으로 표현</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="gallery-image">🛒</div>
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">E-커머스</h3>
+                            <p class="gallery-description">온라인 쇼핑몰 솔루션</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="gallery-image">🎯</div>
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">마케팅</h3>
+                            <p class="gallery-description">효과적인 디지털 마케팅 전략</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA 섹션 -->
+            <section class="cta-section">
+                <h2 class="cta-title">지금 시작하세요</h2>
+                <p class="cta-description">모바일 퍼스트 접근법으로 만든 반응형 웹사이트로 비즈니스를 성장시키세요.</p>
+                <button class="cta-button">무료 상담 받기</button>
+            </section>
+        </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <p>&copy; 2024 MobileFirst. 모든 권리 보유.</p>
+                    <p>모바일 퍼스트 반응형 웹 디자인</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#privacy">개인정보처리방침</a>
+                    <a href="#terms">이용약관</a>
+                    <a href="#support">고객지원</a>
+                    <a href="#contact">연락처</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // 화면 크기 변경 시 메뉴 상태 초기화
+        window.addEventListener('resize', function() {
+            const navMenu = document.getElementById('navMenu');
+            if (window.innerWidth >= 768) {
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // 스크롤 시 헤더 스타일 변경
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.backgroundColor = 'var(--card-background)';
+                header.style.backdropFilter = 'none';
+            }
+        });
+    </script>
+</body>
+</html> 

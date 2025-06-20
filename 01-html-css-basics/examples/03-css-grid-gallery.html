@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid 갤러리 레이아웃 예제</title>
+    <style>
+        /* CSS 변수 정의 */
+        :root {
+            --primary-color: #8b5cf6;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --background-color: #f8fafc;
+            --card-background: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 기본 스타일 리셋 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        /* 컨테이너 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* 헤더 */
+        header {
+            background-color: var(--card-background);
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        /* 메인 콘텐츠 */
+        main {
+            padding: 2rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h1 {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+        }
+
+        /* 대시보드 그리드 */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto auto auto;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* 대시보드 카드 */
+        .dashboard-card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .card-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-change {
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .card-change.positive {
+            color: var(--success-color);
+        }
+
+        .card-change.negative {
+            color: var(--danger-color);
+        }
+
+        /* 특별한 카드들 */
+        .card-wide {
+            grid-column: span 2;
+        }
+
+        .card-tall {
+            grid-row: span 2;
+        }
+
+        .card-large {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        /* 갤러리 그리드 */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* 갤러리 아이템 */
+        .gallery-item {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-color), #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .gallery-content {
+            padding: 1.5rem;
+        }
+
+        .gallery-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .gallery-description {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .gallery-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: var(--secondary-color);
+        }
+
+        /* 차트 영역 */
+        .chart-area {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .chart-main {
+            background-color: var(--background-color);
+            border-radius: 8px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+        }
+
+        .chart-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .chart-stat {
+            background-color: var(--background-color);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .chart-stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .chart-stat-label {
+            font-size: 0.875rem;
+            color: var(--secondary-color);
+        }
+
+        /* 푸터 */
+        footer {
+            background-color: var(--text-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                gap: 1rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .section-title h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Grid Dashboard</div>
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="#dashboard">대시보드</a></li>
+                        <li><a href="#gallery">갤러리</a></li>
+                        <li><a href="#analytics">분석</a></li>
+                        <li><a href="#settings">설정</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 콘텐츠 -->
+    <main>
+        <div class="container">
+            <!-- 섹션 제목 -->
+            <div class="section-title">
+                <h1>CSS Grid 대시보드 & 갤러리</h1>
+                <p>CSS Grid를 활용한 반응형 대시보드와 갤러리 레이아웃 예제입니다.</p>
+            </div>
+
+            <!-- 대시보드 그리드 -->
+            <div class="dashboard-grid">
+                <!-- 매출 카드 -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">총 매출</span>
+                        <div class="card-icon" style="background-color: #dbeafe; color: #2563eb;">💰</div>
+                    </div>
+                    <div class="card-value">₩12,450,000</div>
+                    <div class="card-change positive">
+                        <span>↗</span>
+                        <span>+12.5%</span>
+                    </div>
+                </div>
+
+                <!-- 주문 카드 -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">총 주문</span>
+                        <div class="card-icon" style="background-color: #dcfce7; color: #16a34a;">📦</div>
+                    </div>
+                    <div class="card-value">1,234</div>
+                    <div class="card-change positive">
+                        <span>↗</span>
+                        <span>+8.3%</span>
+                    </div>
+                </div>
+
+                <!-- 고객 카드 -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">신규 고객</span>
+                        <div class="card-icon" style="background-color: #fef3c7; color: #d97706;">👥</div>
+                    </div>
+                    <div class="card-value">567</div>
+                    <div class="card-change positive">
+                        <span>↗</span>
+                        <span>+15.2%</span>
+                    </div>
+                </div>
+
+                <!-- 평점 카드 -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">평균 평점</span>
+                        <div class="card-icon" style="background-color: #fce7f3; color: #ec4899;">⭐</div>
+                    </div>
+                    <div class="card-value">4.8</div>
+                    <div class="card-change positive">
+                        <span>↗</span>
+                        <span>+0.2</span>
+                    </div>
+                </div>
+
+                <!-- 차트 카드 (넓은) -->
+                <div class="dashboard-card card-wide">
+                    <div class="card-header">
+                        <span class="card-title">월별 매출 추이</span>
+                        <div class="card-icon" style="background-color: #e0e7ff; color: #7c3aed;">📊</div>
+                    </div>
+                    <div style="height: 200px; background-color: var(--background-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--secondary-color);">
+                        차트 영역 (실제로는 Chart.js나 D3.js 사용)
+                    </div>
+                </div>
+
+                <!-- 인기 상품 카드 (높은) -->
+                <div class="dashboard-card card-tall">
+                    <div class="card-header">
+                        <span class="card-title">인기 상품 TOP 5</span>
+                        <div class="card-icon" style="background-color: #fef3c7; color: #d97706;">🔥</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; background-color: var(--background-color); border-radius: 6px;">
+                            <span>상품 A</span>
+                            <span style="color: var(--primary-color); font-weight: 600;">1,234개</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; background-color: var(--background-color); border-radius: 6px;">
+                            <span>상품 B</span>
+                            <span style="color: var(--primary-color); font-weight: 600;">987개</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; background-color: var(--background-color); border-radius: 6px;">
+                            <span>상품 C</span>
+                            <span style="color: var(--primary-color); font-weight: 600;">756개</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; background-color: var(--background-color); border-radius: 6px;">
+                            <span>상품 D</span>
+                            <span style="color: var(--primary-color); font-weight: 600;">543개</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem; background-color: var(--background-color); border-radius: 6px;">
+                            <span>상품 E</span>
+                            <span style="color: var(--primary-color); font-weight: 600;">321개</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 알림 카드 -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <span class="card-title">새 알림</span>
+                        <div class="card-icon" style="background-color: #fee2e2; color: #dc2626;">🔔</div>
+                    </div>
+                    <div class="card-value">23</div>
+                    <div class="card-change negative">
+                        <span>↘</span>
+                        <span>-5.2%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 갤러리 그리드 -->
+            <div class="gallery-grid">
+                <!-- 갤러리 아이템 1 -->
+                <div class="gallery-item">
+                    <div class="gallery-image">🎨</div>
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">디자인 시스템</h3>
+                        <p class="gallery-description">일관된 디자인 언어로 사용자 경험을 향상시키는 시스템</p>
+                        <div class="gallery-meta">
+                            <span>2024.01.15</span>
+                            <span>조회수: 1,234</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 갤러리 아이템 2 -->
+                <div class="gallery-item">
+                    <div class="gallery-image">📱</div>
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">모바일 앱</h3>
+                        <p class="gallery-description">사용자 친화적인 모바일 애플리케이션 디자인</p>
+                        <div class="gallery-meta">
+                            <span>2024.01.14</span>
+                            <span>조회수: 987</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 갤러리 아이템 3 -->
+                <div class="gallery-item">
+                    <div class="gallery-image">🌐</div>
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">웹사이트</h3>
+                        <p class="gallery-description">반응형 웹 디자인과 최신 기술을 적용한 웹사이트</p>
+                        <div class="gallery-meta">
+                            <span>2024.01.13</span>
+                            <span>조회수: 756</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 갤러리 아이템 4 -->
+                <div class="gallery-item">
+                    <div class="gallery-image">📊</div>
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">데이터 시각화</h3>
+                        <p class="gallery-description">복잡한 데이터를 직관적으로 표현하는 차트와 그래프</p>
+                        <div class="gallery-meta">
+                            <span>2024.01.12</span>
+                            <span>조회수: 543</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 갤러리 아이템 5 -->
+                <div class="gallery-item">
+                    <div class="gallery-image">🎯</div>
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">UX 리서치</h3>
+                        <p class="gallery-description">사용자 중심의 디자인을 위한 연구 및 분석</p>
+                        <div class="gallery-meta">
+                            <span>2024.01.11</span>
+                            <span>조회수: 432</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 갤러리 아이템 6 -->
+                <div class="gallery-item">
+                    <div class="gallery-image">⚡</div>
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">성능 최적화</h3>
+                        <p class="gallery-description">빠른 로딩 속도와 부드러운 사용자 경험 제공</p>
+                        <div class="gallery-meta">
+                            <span>2024.01.10</span>
+                            <span>조회수: 321</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 차트 영역 -->
+            <div class="chart-area">
+                <h2 style="margin-bottom: 2rem; text-align: center;">상세 분석</h2>
+                <div class="chart-grid">
+                    <div class="chart-main">
+                        <div style="text-align: center; color: var(--secondary-color);">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📈</div>
+                            <div>실시간 데이터 차트</div>
+                            <div style="font-size: 0.875rem; margin-top: 0.5rem;">(Chart.js 또는 D3.js로 구현)</div>
+                        </div>
+                    </div>
+                    <div class="chart-sidebar">
+                        <div class="chart-stat">
+                            <div class="chart-stat-value">89%</div>
+                            <div class="chart-stat-label">고객 만족도</div>
+                        </div>
+                        <div class="chart-stat">
+                            <div class="chart-stat-value">2.3s</div>
+                            <div class="chart-stat-label">평균 로딩 시간</div>
+                        </div>
+                        <div class="chart-stat">
+                            <div class="chart-stat-value">1.2M</div>
+                            <div class="chart-stat-label">월간 방문자</div>
+                        </div>
+                        <div class="chart-stat">
+                            <div class="chart-stat-value">45%</div>
+                            <div class="chart-stat-label">전환율</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Grid Dashboard. 모든 권리 보유.</p>
+            <p>CSS Grid를 활용한 반응형 대시보드 디자인</p>
+        </div>
+    </footer>
+</body>
+</html> 
